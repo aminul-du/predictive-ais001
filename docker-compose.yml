@@ -1,0 +1,15 @@
+services:
+  neo4j:
+    image: neo4j:5.26.0-community
+    container_name: shorborno-neo4j
+    ports:
+      - "127.0.0.1:17474:7474"
+      - "127.0.0.1:17687:7687"
+    environment:
+      - NEO4J_AUTH=${NEO4J_AUTH}
+  remediation-server:
+    build: .
+    container_name: shorborno-remediation-api
+    command: uvicorn remediation_receiver:app --host 0.0.0.0 --port 8080
+    ports:
+      - "127.0.0.1:18080:8080"
